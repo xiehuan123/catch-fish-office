@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: electron-app
+appId: com.catch-fish-office
+productName: catch-fish-office
 directories:
   buildResources: build
 files:
@@ -12,7 +12,10 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: electron-app
+  executableName: catch-fish-office
+  icon: "assets/icon.png"
+
+
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
@@ -28,6 +31,7 @@ mac:
   notarize: false
 dmg:
   artifactName: ${name}-${version}.${ext}
+
 linux:
   target:
     - AppImage

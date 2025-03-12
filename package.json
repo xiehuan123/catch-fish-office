@@ -1,5 +1,5 @@
 {
-  "name": "electron-app",
+  "name": "catch-fish-office",
   "version": "1.0.0",
   "description": "An Electron application with Vue and TypeScript",
   "main": "./out/main/index.js",
@@ -13,7 +13,7 @@
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
-    "build": "npm run typecheck && electron-vite build",
+    "build": " electron-vite build",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
@@ -22,7 +22,12 @@
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
-    "@electron-toolkit/utils": "^3.0.0"
+    "@electron-toolkit/utils": "^3.0.0",
+    "amfe-flexible": "^2.2.1",
+    "chinese-days": "^1.5.0",
+    "dayjs": "^1.11.13",
+    "pinia": "^3.0.1",
+    "postcss-pxtorem": "^6.1.0"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.2",
@@ -39,6 +44,7 @@
     "eslint": "^8.56.0",
     "eslint-plugin-vue": "^9.20.1",
     "prettier": "^3.2.4",
+    "sass": "^1.85.1",
     "typescript": "^5.3.3",
     "vite": "^5.0.12",
     "vue": "^3.4.15",
