@@ -1,11 +1,15 @@
 <template>
-  <div class="max-container" :key="indexStore.currentTheme.id"
-    :style="{ '--themeColor': indexStore.currentTheme.color, '--bgUrl': `url(${indexStore.currentTheme.bgUrl})`, '--sgUrl': `url(${indexStore.currentTheme.sgUrl})` }">
+  <div
+    :key="indexStore.currentTheme.id"
+    class="max-container"
+    :style="{
+      '--themeColor': indexStore.currentTheme.color,
+      '--bgUrl': `url(${indexStore.currentTheme.bgUrl})`,
+      '--sgUrl': `url(${indexStore.currentTheme.sgUrl})`
+    }"
+  >
     <div class="title">
-      <div class="name">
-        Catch Fish Office
-
-      </div>
+      <div class="name">Catch Fish Office</div>
       <div class="time">
         {{ indexStore.currentTime }}
       </div>
@@ -15,20 +19,36 @@
     </div>
 
     <div class="main-container">
-      <Card title="Hourly wage" :value="indexStore.salaryPerMinute * 60" unit="￥"></Card>
+      <Card
+        title="Hourly wage"
+        :value="parseFloat((indexStore.salaryPerMinute * 60).toFixed(2))"
+        unit="￥"
+      ></Card>
       <Card title="Today’s wage" :value="indexStore.salaryEarned" unit="￥"></Card>
       <!-- <Card title="Yearly wage" :value="166238.03"  unit="￥"></Card> -->
       <Card title="Yearly wage" :value="indexStore.salaryYearEarned" unit="￥"></Card>
     </div>
     <div class="footer-container">
-      <Footer :workDays="indexStore.workDays" :daysWorked="indexStore.daysWorked" :holidayName="indexStore.holidayName"
-        :daysToHoliday="indexStore.daysToHoliday" :daysToPayDay="indexStore.daysToPayDay" @setting="openSetting">
+      <Footer
+        :work-days="indexStore.workDays"
+        :days-worked="indexStore.daysWorked"
+        :holiday-name="indexStore.holidayName"
+        :days-to-holiday="indexStore.daysToHoliday"
+        :days-to-pay-day="indexStore.daysToPayDay"
+        @setting="openSetting"
+      >
       </Footer>
     </div>
     <div class="right-container">
-      <ArcProgress :startTime="indexStore.startTime" :endTime="indexStore.endTime"
-        :minutesPassed="indexStore.minutesPassed" :name="indexStore.name" :daysToEndTime="indexStore.daysToEndTime"
-        :width="indexStore.pageWidth" :height="indexStore.pageHeight" :rootFontSize="indexStore.rootFontSize">
+      <ArcProgress
+        :minutes-passed-ratio="indexStore.minutesPassedRatio"
+        :minutes-passed="indexStore.minutesPassed"
+        :name="indexStore.name"
+        :days-to-end-time="indexStore.daysToEndTime"
+        :width="indexStore.pageWidth"
+        :height="indexStore.pageHeight"
+        :root-font-size="indexStore.rootFontSize"
+      >
       </ArcProgress>
     </div>
     <Dialog v-model="showDialog" @submit="indexStore.saveSetting">
@@ -39,11 +59,14 @@
         <div>
           <div class="row">
             <div class="item">
-              <div class="item-label">
-                入职日期
-              </div>
+              <div class="item-label">入职日期</div>
               <div class="item-content">
-                <TextInput v-model="indexStore.entryDateYear" :maxlength="4" :min="2000" :max="2060" />
+                <TextInput
+                  v-model="indexStore.entryDateYear"
+                  :maxlength="4"
+                  :min="2000"
+                  :max="2060"
+                />
                 年
                 <TextInput v-model="indexStore.entryDateMonth" :maxlength="2" :min="1" :max="12" />
                 月
@@ -55,20 +78,15 @@
 
           <div class="row">
             <div class="item">
-              <div class="item-label">
-                上班时间
-              </div>
+              <div class="item-label">上班时间</div>
               <div class="item-content">
                 <DateInput v-model="indexStore.startTime" />
                 <div class="line"></div>
                 <DateInput v-model="indexStore.endTime" />
-
               </div>
             </div>
             <div class="item">
-              <div class="item-label">
-                午休时间段
-              </div>
+              <div class="item-label">午休时间段</div>
               <div class="item-content">
                 <DateInput v-model="indexStore.lunchStartTime" />
                 <div class="line"></div>
@@ -78,9 +96,7 @@
           </div>
           <div class="row">
             <div class="item">
-              <div class="item-label">
-                发薪日期(日)
-              </div>
+              <div class="item-label">发薪日期(日)</div>
               <div class="item-content">
                 <TextInput v-model="indexStore.payDay" />
               </div>
@@ -88,95 +104,105 @@
           </div>
           <div class="row">
             <div class="item">
-              <div class="item-label">
-                税前工资(元)
-              </div>
+              <div class="item-label">税前工资(元)</div>
               <div class="item-content">
-                <TextInput v-model="indexStore.salary" :maxlength="5" :max="99999" @input="handlSalary" />
+                <TextInput
+                  v-model="indexStore.salary"
+                  :maxlength="5"
+                  :max="99999"
+                  @input="handlSalary"
+                />
               </div>
             </div>
 
             <div class="item">
-              <div class="item-label">
-                公积金缴纳比例
-              </div>
+              <div class="item-label">公积金缴纳比例</div>
               <div class="item-content">
-                <TextInput v-model="indexStore.accumulationFundRate" :maxlength="2" :min="5" :max="12"
-                  @input="handlAccumulationFundRate" />
+                <TextInput
+                  v-model="indexStore.accumulationFundRate"
+                  :maxlength="2"
+                  :min="5"
+                  :max="12"
+                  :disblaed="true"
+                  @input="handlAccumulationFundRate"
+                />
               </div>
             </div>
 
             <div class="item">
-              <div class="item-label">
-                税后工资(元)
-              </div>
+              <div class="item-label">税后工资(元)</div>
               <div class="item-content">
-                <TextInput v-model="indexStore.salaryAfterTax" :maxlength="5" :max="99999" :disblaed="true" />
+                <TextInput
+                  v-model="indexStore.salaryAfterTax"
+                  :maxlength="2"
+                  :min="5"
+                  :max="12"
+                  :disblaed="true"
+                />
               </div>
             </div>
           </div>
           <div class="row">
             <div class="item">
-              <div class="item-label">
-                主题色
-              </div>
-              <div class="item-content ">
-                <ThemeSelector :themeList="indexStore.themeList" :theme-id="indexStore.currentTheme.id"
-                  @select="handleSelect">
+              <div class="item-label">主题色</div>
+              <div class="item-content">
+                <ThemeSelector
+                  :theme-list="indexStore.themeList"
+                  :theme-id="indexStore.currentTheme.id"
+                  @select="handleSelect"
+                >
                 </ThemeSelector>
               </div>
             </div>
           </div>
-
         </div>
       </template>
-
     </Dialog>
-
   </div>
 </template>
 <script lang="ts" setup>
-import Card from './components/Card.vue';
-import logo from './components/logo.vue';
-import Footer from './components/Footer.vue';
-import ArcProgress from './components/ArcProgress.vue';
+import Card from './components/Card.vue'
+import logo from './components/logo.vue'
+import Footer from './components/Footer.vue'
+import ArcProgress from './components/ArcProgress.vue'
 
 import Dialog from './components/Dialog.vue'
-import TextInput from './components/TextInput.vue';
+import TextInput from './components/TextInput.vue'
 
-import DateInput from './components/DateInput.vue';
-import ThemeSelector from './components/ThemeSelector.vue';
+import DateInput from './components/DateInput.vue'
+import ThemeSelector from './components/ThemeSelector.vue'
 import { useIndexStore } from './stores/index'
 
 import { calculateBeijingAfterTaxSalary } from './utils/'
 import { ref, onMounted } from 'vue'
 const indexStore = useIndexStore()
-console.log(indexStore.count);
+console.log(indexStore.count)
 
 const showDialog = ref(false)
 const openSetting = () => {
   showDialog.value = true
 }
 const handleSelect = (id: number) => {
-  indexStore.currentTheme = indexStore.themeList.find(item => item.id === id)
+  indexStore.currentTheme = indexStore.themeList.find((item) => item.id === id)
 }
 onMounted(() => {
   indexStore.init()
 })
 // 保存设置
-const handleSumbit = () => {
-  indexStore.saveSetting()
-  showDialog.value = false
-}
 const handlSalary = (value: number) => {
-  console.log('indexStore', indexStore.accumulationFundRate);
+  console.log('indexStore', indexStore.accumulationFundRate)
 
-  indexStore.salaryAfterTax = calculateBeijingAfterTaxSalary(parseInt(value), parseInt(indexStore.accumulationFundRate) / 100)
-
+  indexStore.salaryAfterTax = calculateBeijingAfterTaxSalary(
+    value,
+    parseInt(indexStore.accumulationFundRate) / 100
+  )
 }
 // 公积金比例改变
 const handlAccumulationFundRate = (value: number) => {
-  indexStore.salaryAfterTax = calculateBeijingAfterTaxSalary(parseInt(indexStore.salary), parseInt(value) / 100)
+  indexStore.salaryAfterTax = calculateBeijingAfterTaxSalary(
+    parseInt(indexStore.salary),
+    value / 100
+  )
 }
 </script>
 <style lang="scss" scoped>
@@ -188,7 +214,6 @@ const handlAccumulationFundRate = (value: number) => {
   background-size: cover;
   overflow: hidden;
 
-
   .title {
     position: absolute;
     height: 77px;
@@ -197,12 +222,10 @@ const handlAccumulationFundRate = (value: number) => {
     color: #fff;
 
     .name {
-
       font-size: 40px;
       font-weight: 510;
       line-height: 47.73px;
       text-align: left;
-
     }
 
     .time {
@@ -226,13 +249,11 @@ const handlAccumulationFundRate = (value: number) => {
     display: flex;
     width: 1167px;
     justify-content: space-between;
-
   }
 
   .footer-container {
     position: absolute;
     bottom: 0;
-
   }
 
   .right-container {
@@ -240,7 +261,6 @@ const handlAccumulationFundRate = (value: number) => {
     right: 0;
     transform: translateX(46%);
   }
-
 }
 
 .row {
@@ -260,7 +280,6 @@ const handlAccumulationFundRate = (value: number) => {
     }
 
     .item-content {
-
       margin-top: 10px;
       display: flex;
       align-items: center;
@@ -276,11 +295,11 @@ const handlAccumulationFundRate = (value: number) => {
     .theme-color {
       width: 100px;
 
-      >div {
+      > div {
         width: 20px;
         height: 20px;
         outline: 2px #fff solid;
-        background-color: #EAAFFF;
+        background-color: #eaafff;
       }
     }
   }

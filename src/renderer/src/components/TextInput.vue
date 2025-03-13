@@ -1,69 +1,80 @@
 <template>
-
   <div class="text-input">
-    <input v-if="!props.disblaed" v-model="inputValue" type="number" @input="handleInput" :placeholder="placeholder"
-    @blur="handleBlur" 
-    :min="props.min" :max="props.max"
-      class="input-with-limit" />
-    <span  v-if="props.disblaed">{{ props.modelValue }}</span>
+    <input
+      v-if="!props.disblaed"
+      v-model="inputValue"
+      type="number"
+      :placeholder="placeholder"
+      :min="props.min"
+      :max="props.max"
+      class="input-with-limit"
+      @input="handleInput"
+      @blur="handleBlur"
+    />
+    <span v-if="props.disblaed">{{ props.modelValue }}</span>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue'
 
 const props = defineProps({
   modelValue: {
     type: String,
-    default: '',
+    default: ''
   },
   min: {
     type: Number,
-    default: 0,
+    default: 0
   },
   max: {
     type: Number,
-    default: 9999,
+    default: 9999
   },
   maxlength: {
     type: Number,
-    default: 4, // 默认4位
+    default: 4 // 默认4位
   },
   disblaed: {
     type: Boolean,
-    default: false,
-  },
-});
+    default: false
+  }
+})
 
-const emit = defineEmits(['update:modelValue','input']);
+const emit = defineEmits(['update:modelValue', 'input'])
 
-const inputValue = ref(props.modelValue);
-
+const inputValue = ref(props.modelValue)
+onMounted(() => {
+  console.log('mounted', props.modelValue)
+})
 // 格式化小时，确保两位数
-const handleInput = (e) => {
-  if (inputValue.value > props.max) inputValue.value = props.max;
-  inputValue.value = padZero(inputValue.value);
-  console.log(inputValue.value,'input');
-  
-  emit('input', parseInt(inputValue.value));
-};
-const handleBlur=()=>{
-  console.log();
-  
-  if(inputValue.value==='' || inputValue.value<props.min){
+const handleInput = () => {
+  if (inputValue.value > props.max) inputValue.value = props.max
+  inputValue.value = padZero(inputValue.value)
+  console.log(inputValue.value, 'input')
+
+  emit('input', parseInt(inputValue.value))
+}
+const handleBlur = () => {
+  console.log()
+
+  if (inputValue.value === '' || inputValue.value < props.min) {
     inputValue.value = padZero(props.min)
   }
-  emit('update:modelValue', parseInt(inputValue.value)  );
+  emit('update:modelValue', parseInt(inputValue.value))
 }
 // 填充零
 const padZero = (num) => {
-  return num.toString().padStart(props.maxlength, '0');
-};
+  return num.toString().padStart(props.maxlength, '0')
+}
 
 // 初始化双向绑定的值
-watch(() => props.modelValue, (newVal) => {
-  inputValue.value = newVal;
-});
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    inputValue.value = newVal
+  }
+)
 </script>
 
 <style lang="scss" scoped>
@@ -93,5 +104,4 @@ watch(() => props.modelValue, (newVal) => {
     -webkit-appearance: none !important;
   }
 }
-
 </style>
