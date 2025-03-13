@@ -13,7 +13,7 @@ asarUnpack:
   - resources/**
 win:
   executableName: catch-fish-office
-  icon: "assets/icon.png"
+  icon: "build/icon.png"
 
 
 nsis:
