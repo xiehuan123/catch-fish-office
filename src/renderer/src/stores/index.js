@@ -102,8 +102,8 @@ export const useIndexStore = defineStore('index', {
     sgUrl: new URL('/img/sg_purple.png', import.meta.url).href
   },
     //当前页面的事件宽度和高度
-    pageWidth: 0,
-    pageHeight: 0,
+    pageWidth: 1920,
+    pageHeight: 1052,
     rootFontSize:256
   }),
   actions: {

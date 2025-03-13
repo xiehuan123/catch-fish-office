@@ -183,7 +183,7 @@ const handlAccumulationFundRate = (value: number) => {
 .max-container {
   position: relative;
   width: 1920px;
-  height: 1080px;
+  height: 1052px;
   background: var(--bgUrl);
   background-size: cover;
   overflow: hidden;
