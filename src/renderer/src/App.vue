@@ -208,8 +208,8 @@ const handlAccumulationFundRate = (value: number) => {
 <style lang="scss" scoped>
 .max-container {
   position: relative;
-  width: 1920px;
-  height: 1052px;
+  width: 100vw;
+  height: 100vh;
   background: var(--bgUrl);
   background-size: cover;
   overflow: hidden;

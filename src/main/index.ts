@@ -10,7 +10,7 @@ function createWindow(): void {
     height: 1080,
     show: false,
     autoHideMenuBar: true,
-    resizable: false,
+
     icon,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -26,7 +26,22 @@ function createWindow(): void {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
+// 监听窗口大小变化，保持等比例缩放
+mainWindow.on('will-resize', (event, newBounds) => {
+  event.preventDefault() // 阻止默认调整大小行为
 
+  const aspectRatio = 1920 / 1080 // 计算原始比例
+  let newWidth = newBounds.width
+  let newHeight = Math.round(newWidth / aspectRatio)
+
+  // 重新设置窗口大小
+  mainWindow.setBounds({
+    x: newBounds.x,
+    y: newBounds.y,
+    width: newWidth,
+    height: newHeight
+  })
+})
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
