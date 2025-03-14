@@ -8,9 +8,11 @@ function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
+    minWidth: 1320,
+    minHeight: 480,
     show: false,
     autoHideMenuBar: true,
-
+    titleBarStyle: 'hiddenInset',
     icon,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),

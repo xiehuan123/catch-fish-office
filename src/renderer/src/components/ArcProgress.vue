@@ -200,8 +200,8 @@ const update = () => {
   const x2Width = getTextWidthHeight(props.daysToEndTime, 0.24 * rootFontSize.value, 'SF-Pro')
   drawText(
     ctx.value,
-    height.value * 0.25 - x1Width / 2 + 0.017 * height.value,
-    height.value * 0.5 - 0.03 * height.value,
+    height.value * 0.25 - x1Width / 2 + 0.14 * height.value,
+    height.value * 0.5 - 0.06 * height.value,
     props.name,
     `${0.13 * rootFontSize.value}px SF-Pro`,
     'rgba(255, 255, 255, .7)'
@@ -211,7 +211,7 @@ const update = () => {
     height.value * 0.25 - x2Width / 2,
     height.value * 0.5 + 0.019 * height.value,
     props.daysToEndTime,
-    `${0.26 * rootFontSize.value}px SF-Pro`,
+    `${0.4 * rootFontSize.value}px SF-Pro`,
     'rgba(255, 255, 255, 1)'
   )
 }

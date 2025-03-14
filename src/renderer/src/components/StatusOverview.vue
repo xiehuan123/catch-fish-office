@@ -59,6 +59,7 @@ const props = defineProps({
     padding-bottom: 99px;
     color: #fff;
     border-bottom: 1px solid transparent;
+    font-size: 24px;
     border-image: linear-gradient(
       90deg,
       rgba(153, 153, 153, 0) 0%,
