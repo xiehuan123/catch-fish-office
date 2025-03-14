@@ -44,7 +44,7 @@ export const getSunAngle = (startTime) => {
     const now = dayjs();
     // 如果当前时间大于 结束时间
     // 计算时间差（以分钟为单位）
-    const duration = now.diff(startTime, 'minute');
+    const duration = now.diff(startTime, 'second');
     if (duration < 0) {
         return 0;  // 如果当前时间早于开始点，则返回0
     }
@@ -266,7 +266,7 @@ export function calculateCumulativeEarnings(monthlySalary,daySalary,dailyEarning
   const yearSalary = parseFloat(month*monthlySalary)+parseFloat(getWorkDays()*daySalary)+ parseFloat(dailyEarnings);
   console.log('年薪',yearSalary);
   
-  return yearSalary.toFixed(1);
+  return yearSalary.toFixed(2);
 }
 // 获取本月已工作日天数
 export const getWorkDays = () => {

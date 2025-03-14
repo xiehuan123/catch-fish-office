@@ -22,6 +22,8 @@ export const useIndexStore = defineStore('index', {
 
     // 当前已过分钟数
     minutesPassed: 0,
+    // 当前已过秒数
+    secondsPassed: 0,
     // 上班时间总分钟数
     totalMinutes: 0,
     // 已过分钟数和上班时间总分钟数的比例
@@ -51,6 +53,8 @@ export const useIndexStore = defineStore('index', {
     salaryYearEarned: 0,
     // 每分钟多少钱
     salaryPerMinute: 0,
+    // 每秒多少钱
+    salaryPerSecond: 0,
     // 本月工作日天数
     workDays: 22,
 
@@ -133,13 +137,15 @@ export const useIndexStore = defineStore('index', {
         this.workDays /
         (getDuration(this.startTime, this.endTime) - this.lunchTotalMinutes)
       ).toFixed(2)
+      // 计算每秒多少钱
+      this.salaryPerSecond = (
+        this.salary /
+        this.workDays /
+        (getDuration(this.startTime, this.endTime) - this.lunchTotalMinutes) /
+        60
+      ).toFixed(2)
       // 上班时间总分钟数 包含午休
       this.totalMinutes = getDuration(this.startTime, this.endTime)
-      console.log(
-        '每分钟多少钱999999999999',
-        this.salaryPerMinute,
-        getDuration(this.startTime, this.endTime) - this.lunchTotalMinutes
-      )
 
       console.log('午休开始时间分钟数', this.lunchStartMinutes)
       console.log('午休结束时间分钟数', this.lunchEndMinutes)
@@ -147,8 +153,9 @@ export const useIndexStore = defineStore('index', {
 
       //   实时更新当前已过分钟数
       setInterval(() => {
-        this.minutesPassed = getSunAngle(dayjs(this.startTime, 'HH:mm'))
-        console.log('当前已过分钟数', this.minutesPassed)
+        this.secondsPassed = getSunAngle(dayjs(this.startTime, 'HH:mm'))
+        this.minutesPassed =this.secondsPassed/60
+        console.log('当前已过秒钟数', this.secondsPassed)
         // 实时更新已过分钟数和上班时间总分钟数的比例
         this.minutesPassedRatio = (this.minutesPassed / this.totalMinutes).toFixed(2)
         this.daysToEndTime = getTimeDifference(dayjs(), this.endTime + ':00', 'HH:mm:ss') //时分秒
@@ -170,10 +177,12 @@ export const useIndexStore = defineStore('index', {
             this.minutesPassed = this.minutesPassed - this.lunchTotalMinutes
             console.log('当前已过午休 总分钟数', this.minutesPassed)
           }
-
+          console.log('当前已过秒数', this.salaryPerSecond);
+          console.log('每秒多少钱', this.salaryPerSecond);
+          
           // 实时更新当天已赚薪资
-          this.salaryEarned = (this.minutesPassed * this.salaryPerMinute).toFixed(2)
-          console.log('当天已赚薪资', this.salaryYearEarned)
+          this.salaryEarned = (this.salaryPerSecond* this.secondsPassed).toFixed(2)
+          console.log('当天已赚薪资', this.salaryEarned)
           this.salaryYearEarned = calculateCumulativeEarnings(
             this.salary,
             this.salaryPerMinute * 480,
