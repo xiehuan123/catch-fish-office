@@ -123,7 +123,6 @@
                   :maxlength="2"
                   :min="5"
                   :max="12"
-                  :disblaed="true"
                   @input="handlAccumulationFundRate"
                 />
               </div>
@@ -244,7 +243,7 @@ const handlAccumulationFundRate = (value: number) => {
 
   .main-container {
     position: absolute;
-    top: 260px;
+    top: 250px;
     left: 72px;
     display: flex;
     width: 1167px;
