@@ -128,10 +128,8 @@ function getTextWidthHeight(text: string, fontSize = 16, fontFamily = 'Arial') {
 watch(
   () => props.daysToEndTime,
   () => {
-    if (ctx.value) {
-      init()
+
       update()
-    }
   }
 )
 watch(
@@ -140,8 +138,9 @@ watch(
     width.value = props.height
     height.value = props.height
     rootFontSize.value = props.rootFontSize
-    console.log('init')
+    console.log('init 高度发生变化', props.height)
     init()
+    update()
   }
 )
 const update = () => {

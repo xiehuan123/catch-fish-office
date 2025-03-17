@@ -209,6 +209,8 @@ const handlAccumulationFundRate = (value: number) => {
   position: relative;
   width: 100vw;
   height: 100vh;
+  min-width: 1320px;
+  min-height: 480px;
   background: var(--bgUrl);
   background-size: cover;
   overflow: hidden;
