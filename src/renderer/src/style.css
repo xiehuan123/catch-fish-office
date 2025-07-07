@@ -1,0 +1,12 @@
+/* 导入字体 */
+@font-face {
+  font-family: 'SF-Pro';
+  src: url('./assets/font/SF-Pro.ttf');
+}
+*{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: 'SF-Pro';
+  background-size: cover;
+}
